@@ -1,19 +1,41 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe("CONG", function () {
+  let cong: any;
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+  before(async () => {
+    const congFactory = await ethers.getContractFactory("CONG");
+    cong = await congFactory.deploy("Cong", "CONG", ethers.utils.parseEther("100000000"));
+    await cong.deployed();
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+  })
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+  it("Check owner's token amount", async function () {
+    let owner: any;
+    [owner] = await ethers.getSigners();
+    expect(await cong.balanceOf(owner.address)).to.equal(ethers.utils.parseEther("100000000"));
+  });
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+  it("PreSale Time Test", async function () {
+    await cong.setPreSaleStart(1663682639);
+
+    expect(await cong.preSaleStart()).to.equal(1663682639);
+  });
+
+  it("Test enrollOne with only one user", async function () {
+    await cong.enrollOne("0xffF0313bDcc071490ec4947D8072D7A6D1394411");
+
+    expect(await cong.investors("0xffF0313bDcc071490ec4947D8072D7A6D1394411")).to.equal(true);
+  });
+
+  it("Test enrollAll with user array", async function () {
+    await cong.enrollAll([
+      "0xffF0313bDcc071490ec4947D8072D7A6D1394411",
+      "0x503D11Bd91fCB198aAA09AA72D063b4a62077323",
+      "0xaD909939c964E1eFC958E96Df6C5DAf5ECc6b347",
+    ]);
+
+    expect(await cong.investors("0x503D11Bd91fCB198aAA09AA72D063b4a62077323")).to.equal(true);
   });
 });

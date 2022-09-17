@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CONG is ERC20, Ownable {
-    mapping(address => bool) investors;
+    mapping(address => bool) public investors;
     uint256 public preSaleStart;
 
     constructor(string memory name_, string memory symbol_, uint256 totalSupply_) ERC20(name_, symbol_) {
