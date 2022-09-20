@@ -34,5 +34,9 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3"
+  },
+  "scripts": {
+    "deploy:RK": "npx hardhat run ./scripts/deploy.ts --network rinkeby",
+    "deploy:Main": "npx hardhat run ./scripts/deploy.ts --network main"
   }
 }

@@ -15,7 +15,12 @@ async function main() {
 
   // We get the contract to deploy
   const Greeter = await ethers.getContractFactory("CONG");
-  const greeter = await Greeter.deploy("Cong", "CONG", ethers.utils.parseEther("100000000"));
+  const greeter = await Greeter.deploy(
+    "Cong",
+    "CONG",
+    ethers.utils.parseEther("1000000000"),
+    ethers.utils.parseEther("100000000000")
+  );
 
   await greeter.deployed();
 
